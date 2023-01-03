@@ -1,12 +1,5 @@
 import React from "react";
 
-interface IUseThrottle {
-  changeEvent: any;
-  delay?: number;
-  onFinishThrottle: Function;
-  onStartThrottle?: Function;
-}
-
 export default function useThrottle(
   changeEvent,
   delay = 700,
@@ -32,6 +25,7 @@ export default function useThrottle(
     if (_timeOut) {
       clearTimeout(_timeOut);
       _setTimeout(null);
+      setThrottling(false);
     }
   }
 
@@ -41,7 +35,7 @@ export default function useThrottle(
     if (changeEvent) startThrottle();
     else cleanUp();
     return () => cleanUp();
-  }, [changeEvent, delay, onDelay]);
+  }, [changeEvent, delay, onStartThrottle, onFinishThrottle]);
 
   return [throttling, clear];
 }
